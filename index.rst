@@ -5,10 +5,15 @@
 
 Welcome to SF-CHAMP's documentation!
 ====================================
+SF-CHAMP is San Francisco’s travel forecasting tool (https://www.sfcta.org/sf-champ-modeling). This tool is used for many Transportation Authority planning studies and projects to predict future travel patterns for the city.
 
 .. toctree::
    :maxdepth: 3
    :caption: Contents:
+   
+   components
+   inputs
+   outputs
 
 
 
