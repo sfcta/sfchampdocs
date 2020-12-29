@@ -29,6 +29,8 @@ Cube TRNBUILD Transit Assignment & Skims
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 Bike Route Choice & Skims
 ~~~~~~~~~~~~~~~~~~~~~~~~~
+Walk Skims
+~~~~~~~~~~~~~~~~~~~~~~~~~
 
 Model System Flow
 -------------------
@@ -57,6 +59,8 @@ Fare & Pricing Assumptions
 Model Coefficients
 ----------------------
 
+Input Data Preparation Tools
+----------------------------
 
 ==============================
 Model Calibration & Validation
