@@ -12,14 +12,14 @@ Population Synthesizer
 DaySim Activity-Based Demand Model
 ----------------------------------
 
+Auxiliary Demand Models
+-----------------------
 IXXI Demand Model
-----------------------------------
-
+~~~~~~~~~~~~~~~~~
 Commercial Demand Model
-----------------------------------
-
+~~~~~~~~~~~~~~~~~~~~~~~
 Visitor Demand Model
-----------------------------------
+~~~~~~~~~~~~~~~~~~~~
 
 Network Supply Models
 ---------------------
