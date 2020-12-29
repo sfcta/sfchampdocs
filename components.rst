@@ -12,6 +12,15 @@ Population Synthesizer
 DaySim Activity-Based Demand Model
 ----------------------------------
 
+IXXI Demand Model
+----------------------------------
+
+Commercial Demand Model
+----------------------------------
+
+Visitor Demand Model
+----------------------------------
+
 Network Supply Models
 ---------------------
 Cube HIGHWAY Assignment & Skims
