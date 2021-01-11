@@ -2,9 +2,9 @@
 Activity Demand Models
 ----------------------
 
-----------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 DaySim Activity-Based Demand Model
-----------------------------------
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 SF-CHAMP 6.0 uses the DaySim demand model (https://github.com/RSGInc/DaySim/wiki). DaySim is an open-source travel demand microsimulation package that is used by several regional planning organizations in their travel demand models. DaySim consists of a series of discrete choice models that represents different components of travel decision-making. Each model is estimated and calibrated with observed travel survey data.
 This is an abridged list of DaySim submodels and some of the primary factors that influence choice-making in each model, roughly presented in order:
@@ -22,9 +22,9 @@ This is an abridged list of DaySim submodels and some of the primary factors tha
 *	**Trip time model.** Major sensitivities include: student status, age, minutes available in schedule, remaining stops to make, activity purpose
 
 
------------------------
+^^^^^^^^^^^^^^^^^^^^^^^
 Auxiliary Demand Models
------------------------
+^^^^^^^^^^^^^^^^^^^^^^^
 
 IXXI Demand Model
 ~~~~~~~~~~~~~~~~~
