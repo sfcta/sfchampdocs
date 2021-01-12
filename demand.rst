@@ -22,13 +22,4 @@ This is an abridged list of DaySim submodels and some of the primary factors tha
 *	**Trip time model.** Major sensitivities include: student status, age, minutes available in schedule, remaining stops to make, activity purpose
 
 
-^^^^^^^^^^^^^^^^^^^^^^^
-Auxiliary Demand Models
-^^^^^^^^^^^^^^^^^^^^^^^
-
-IXXI Demand Model
-~~~~~~~~~~~~~~~~~
-Commercial Demand Model
-~~~~~~~~~~~~~~~~~~~~~~~
-Visitor Demand Model
-~~~~~~~~~~~~~~~~~~~~
+:doc:`demand_auxiliary`
