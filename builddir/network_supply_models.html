@@ -1,0 +1,362 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Network Supply Models &mdash; SF-CHAMP 6.1.2 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Model Inputs" href="model_inputs.html" />
+    <link rel="prev" title="Activity Demand Models" href="activity_demand_models.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> SF-CHAMP
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="intro_overview.html">Introduction &amp; Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="model_structure_and_flow.html">Model Structure &amp; Flow</a></li>
+<li class="toctree-l1"><a class="reference internal" href="activity_demand_models.html">Activity Demand Models</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Network Supply Models</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#highway-models">Highway Models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#highway-assignment">Highway Assignment</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#highway-skimming">Highway Skimming</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#transit-models">Transit Models</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#networks">Networks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#transit-links-diagram">Transit Links Diagram</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#transit-assignment-skimming">Transit Assignment &amp; Skimming</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#transit-coding">Transit Coding</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#time-periods">Time Periods</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#transit-priority-signaling-tps-rapid-network">Transit Priority Signaling (TPS) / Rapid Network</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#bus-lanes-and-bus-rapid-transit">Bus Lanes and Bus Rapid Transit</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#walk-models">Walk Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#bike-models">Bike Models</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="model_inputs.html">Model Inputs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="model_outputs.html">Model Outputs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="model_calibration_and_validation.html">Model Calibration &amp; Validation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="user_guide.html">User Guide</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">SF-CHAMP</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Network Supply Models</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/network_supply_models.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="network-supply-models">
+<h1>Network Supply Models<a class="headerlink" href="#network-supply-models" title="Permalink to this headline">¶</a></h1>
+<p>The supply models consist of assigning travel demand onto transportation networks, and then evaluating how those transportation networks perform. There are separate models for roadway and transit supply. Both models use the Citilabs Cube software package for assignment (assigning trips to networks) and skimming (evaluating travel times and costs for travel between origins and destinations after trips have been assigned to the networks).</p>
+<div class="section" id="highway-models">
+<h2>Highway Models<a class="headerlink" href="#highway-models" title="Permalink to this headline">¶</a></h2>
+<p>Highway assignment is the process of loading vehicle trips onto the roadway network. In assignment, each vehicle trip searches for a route with the lowest generalized cost (considering travel time and toll costs). The assignment model iteratively reassigns trips until the model converges towards a user-equilibrium condition. Skimming is the process of evaluating the components of generalized cost for all origin and destination pairs. Assignment and skimming is conducted separately for the five SF-CHAMP time of day periods: AM Peak, midday, PM Peak, evening, and late night/early morning.</p>
+<div class="section" id="highway-assignment">
+<h3>Highway Assignment<a class="headerlink" href="#highway-assignment" title="Permalink to this headline">¶</a></h3>
+<p>A number of new features were incorporated into the roadway assignment and skimming process for CHAMP 4.3 Fury. These include:</p>
+<ul class="simple">
+<li><p>Script consolidation. All highway assignment skimming and assignment scripts were consolidated into a single file, with variables for time-period specific variables (such as peaking factors). The modeling process now dynamically generates versions of the script by time period, for assignment vs skimming, and for distributed computing. This system is easier to update (updates can be made in one source file instead of 5-15 source files), which reduces errors and ensures consistency between the assignment and the skimming.</p></li>
+<li><p>A new link input variable was added, TOLLTIME, to account for the time required to pay a toll. This variable interacts with link V/C to represent toll plaza congestion effects on travel time.</p></li>
+<li><p>Roadway skims include a new variable representing congested distance, VC_OVER_08. This variable is used in the mode choice model, so that the additional disutility inherent to driving in congestion from increased stress can be incorporated.</p></li>
+</ul>
+<p>The highway networks are coded in equivalent manner as the networks for the Phase 1 CHAMP 3.1 models, with one additional field indicating if the toll should be treated as a “value toll” and included as a separate alternative in the choice models. Specifically, the network fields related to tolling are:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">TOLL{EA,AM,MD,PM,EV}_DA</span></code> – Cost of tolls to single-occupant vehicles in the { Early AM, AM Peak, Mid-Day, PM Peak, or Evening }.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">TOLL{EA,AM,MD,PM,EV}_SR2</span></code> – Cost of tolls to shared-ride 2 vehicles in the { Early AM, AM Peak, Mid-Day, PM Peak, or Evening }.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">TOLL{EA,AM,MD,PM,EV}_SR3</span></code> – Cost of tolls to shared-ride 3+ vehicles in the { Early AM, AM Peak, Mid-Day, PM Peak, or Evening }.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">VALUETOLL_FLAG</span></code> – Binary flag indicating whether or not trips traversing this link should be included in the toll alternative in the choice models.</p></li>
+</ul>
+<p>All costs are coded in 1989 cents. The value toll flag is important because it distinguishes between the congestion pricing tolls and the background tolls on the Bay Area bridges. Just because someone is willing to pay a toll to cross the Golden Gate Bridge, does not necessarily mean that they are also willing to pay a toll to enter the downtown area. A trip is only included in the toll alternative if it traverses a link where both the value toll flag and the toll for that time period and auto occupancy are greater than zero. If the flag is set to zero, then the toll is still paid, but it is included in the utility equation of the no-toll alternative.
+Highway shortest paths are built based on the generalized cost equation:</p>
+<p><code class="docutils literal notranslate"><span class="pre">Generalized</span> <span class="pre">Cost</span> <span class="pre">=</span> <span class="pre">Time</span> <span class="pre">+</span> <span class="pre">0.04</span> <span class="pre">*</span> <span class="pre">(Distance</span> <span class="pre">*</span> <span class="pre">12</span> <span class="pre">+</span> <span class="pre">Toll</span> <span class="pre">/</span> <span class="pre">Occupancy)</span></code></p>
+<p>This generalized cost assumes a $15/hour value of time for personal travel and $30/hour for commercial vehicles. The generalized cost uses a $0.12/mile auto operating cost. The division of cost by auto occupancy is new in RPM-9 and allows for the sharing of costs among passengers. The auto operating cost is not divided by occupancy because doing so would force the model to predict higher shared ride shares for longer trips, a result that is not seen in the observed data.</p>
+<p>See <a class="reference external" href="http://intranet2.sfcta.org/Modeling/LoadedNetworkDecoder#Basic_Network_Variables">LoadedNetworkDecoder</a> for documentation on all road network variables.</p>
+<p>See <a class="reference external" href="http://intranet2.sfcta.org/Modeling/HighwayAssignmentAndSkims">HighwayAssignmentAndSkims</a> for more or to edit.</p>
+</div>
+<div class="section" id="highway-skimming">
+<h3>Highway Skimming<a class="headerlink" href="#highway-skimming" title="Permalink to this headline">¶</a></h3>
+<p>Transit skimming and assignment are done using Citilabs Cube Voyager TRNBUILD Program. See the Cube Help for documentation on the file formats, etc. The below documentation will cover CHAMP-specific details.</p>
+<p>Two separate sets of highway skims are built. The toll skims are allowed to use any link in the network, subject to the normal HOV restrictions. The no-toll skims are prevented from using links where the toll and the value toll flag are both greater than zero. The no toll skims include three tables: time, distance, and cost of bridge tolls. The toll skims include four tables: time, distance, cost of bridge tolls, and cost of value tolls. The value tolls need to be skimmed separately such that the availability of toll alternatives can be determined, and such that incremental value toll costs can be set to zero for area pricing scenarios.</p>
+</div>
+</div>
+<div class="section" id="transit-models">
+<h2>Transit Models<a class="headerlink" href="#transit-models" title="Permalink to this headline">¶</a></h2>
+<p>Transit assignment and skimming is similar to highway assignment and skimming, except that transit trips are assigned to the transit network. Transit assignment is inherently more complicated because transit trips can include walk or drive access segments, one or more transit services, and transit trips face a variety of fare policies. SF-CHAMP uses Citilabs Cube software for transit assignment and skimming.</p>
+<div class="section" id="networks">
+<h3>Networks<a class="headerlink" href="#networks" title="Permalink to this headline">¶</a></h3>
+<p>Transit assignment and skimming are now done in a lockstep iterative process, driven by <code class="docutils literal notranslate"><span class="pre">trnAssign.bat</span></code>. The process is as follows:</p>
+<ol class="arabic">
+<li><p>Copy the initial transit line files into the transit assignment directory (these will have either initial dwell/access values or they will have those the ones from the end of the previous global iteration).</p></li>
+<li><p>Build the temporary roadway networks:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">LOAD[TIMEPERIOD]_BUSTIME.NET</span></code> is the roadway network with bus times per link, which are defined by the congested time, along with any speed up from TSP (transit signal priority), dedicated transit lanes, TTRP savings (transit travel time reduction plan), etc.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">LOAD[TIMEPERIOD]_ACCESS.NET</span></code> is <code class="docutils literal notranslate"><span class="pre">LOAD[TIMEPERIOD]_BUSTIME.NET</span></code> but with the access links from <code class="docutils literal notranslate"><span class="pre">[bus,rail,muni].access</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">LOAD[TIMEPERIOD]_XFERS.NET</span></code> is <code class="docutils literal notranslate"><span class="pre">LOAD[TIMEPERIOD]_BUSTIME.NET</span></code> but with the xfer links from <code class="docutils literal notranslate"><span class="pre">[bus,rail,muni].xfer</span></code>.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">[TIMEPERIOD]_walk_suplinks.dat</span></code> are also generated by <code class="docutils literal notranslate"><span class="pre">TRNBUILD</span></code> to connect origin TAZs to transit stops.</p></li>
+</ul>
+</div></blockquote>
+</li>
+</ol>
+<p>See <a class="reference external" href="http://intranet2.sfcta.org/Modeling/TransitAssignmentAndSkims">TransitAssignmentAndSkims</a> for more or to edit.</p>
+</div>
+<div class="section" id="transit-links-diagram">
+<h3>Transit Links Diagram<a class="headerlink" href="#transit-links-diagram" title="Permalink to this headline">¶</a></h3>
+<img alt="_images/transit_links_diagram.png" src="_images/transit_links_diagram.png" />
+<p>The grey links are coded in the <code class="docutils literal notranslate"><span class="pre">XXX.xfer</span></code> and <code class="docutils literal notranslate"><span class="pre">XXX.access</span></code> files and incorporated into the “temp” networks, but they are just used them to generate the other links (walk and drive access and egress, and funnel links). In other words, if one can go from a TAZ to the nearby roadway node (6639 in the diagram), and then to the WNR, and then to the Stop, then the mode 11 link gets generated. The extra modes and links are created in order to be able to see detailed access/egress sources for a given station. However, mode 3 (Muni Metro) is done without the WNR nodes (and PNR nodes but that’s because there aren’t Muni Metro PNRs) – they’re just done with a direct mode 11 link to the station – just because there are many Muni Metro off-street nodes and adding all those WNRs was though to be too cumbersome and unnecessary given that there aren’t PNRs.</p>
+</div>
+<div class="section" id="transit-assignment-skimming">
+<h3>Transit Assignment &amp; Skimming<a class="headerlink" href="#transit-assignment-skimming" title="Permalink to this headline">¶</a></h3>
+<div class="section" id="transit-coding">
+<h4>Transit Coding<a class="headerlink" href="#transit-coding" title="Permalink to this headline">¶</a></h4>
+<p>Transit skimming and assignment are done using Citilabs Cube Voyager <code class="docutils literal notranslate"><span class="pre">TRNBUILD</span></code> Program. See the Cube Help for documentation on the file formats, etc. The below documentation will cover CHAMP-specific details.
+In the <code class="docutils literal notranslate"><span class="pre">TRNBUILD</span> <span class="pre">LINE</span></code> statements, the <code class="docutils literal notranslate"><span class="pre">MODE</span></code> attribute is defined as the following.</p>
+<p><em>Table 4: Champ Transit Modes in CHAMP4.3</em></p>
+<p><a class="reference external" href="http://intranet2.sfcta.org/Modeling/TransitAssignmentAndSkims">Intranet Source</a></p>
+<img alt="_images/table_4.png" src="_images/table_4.png" />
+</div>
+<div class="section" id="time-periods">
+<h4>Time Periods<a class="headerlink" href="#time-periods" title="Permalink to this headline">¶</a></h4>
+<p>Time periods are the same as specified in TimePeriods (since the standard trip tables are used), except renumbered. So:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">FREQUENCY[1]</span></code> is AM</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">FREQUENCY[2]</span></code> is MD</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">FREQUENCY[3]</span></code> is PM</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">FREQUENCY[4]</span></code> is EV</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">FREQUENCY[5]</span></code> is EA</p></li>
+</ul>
+</div>
+<div class="section" id="transit-priority-signaling-tps-rapid-network">
+<h4>Transit Priority Signaling (TPS) / Rapid Network<a class="headerlink" href="#transit-priority-signaling-tps-rapid-network" title="Permalink to this headline">¶</a></h4>
+<p>Transit priority signaling / the Rapid Network is represented in two ways.</p>
+<ol class="arabic">
+<li><p>On the roadway network, there are 3 new fields per roadway link: BUSTPS_[AM,OP,PM]. These can be set to:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>0 for no transit signal priority</p></li>
+<li><p>1 for a 3 second benefit for transit</p></li>
+<li><p>2 for a 6 second benefit for transit</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>For a given transit line, the OWNER attribute can be set to “TPS”. This has the effect of assuming a decreased delay for each stop, implemented in the script that adds delays to the transit line files. The delay is calculated when the networks are written out by the Wrangler function: addDelay().</p></li>
+</ol>
+<p>For (1), These get translated into a fixed travel time benefit per link (such as 3 to 6 seconds) via <code class="docutils literal notranslate"><span class="pre">trnSkims/build_tmphwynet_TPS_AM.s</span></code>.</p>
+</div>
+<div class="section" id="bus-lanes-and-bus-rapid-transit">
+<h4>Bus Lanes and Bus Rapid Transit<a class="headerlink" href="#bus-lanes-and-bus-rapid-transit" title="Permalink to this headline">¶</a></h4>
+<p>BRT is similarly represented, via the roadway network and in the TRNBUILD LINE file.</p>
+<ol class="arabic">
+<li><p>The network has 3 fields per roadway link: BUSLANE_[AM,OP,PM]. These can be set to:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p>0 for no lane treatments,</p></li>
+<li><p>1 to represent a diamond lane,</p></li>
+<li><p>2 to represent a side BRT lane, or</p></li>
+<li><p>3 to represent a center BRT lane.</p></li>
+</ul>
+</div></blockquote>
+</li>
+<li><p>For a given transit line, the OWNER can also be set to “BRT” in the TNRBUILD LINE file. This affects the per-stop delay for Muni Express buses and Muni Local buses. These per-stop delay reductions represent level floor boarding, proof-of-payment and all door boarding.</p></li>
+</ol>
+<p>Similarly, for (1), these get translated to a percentage travel time benefit per link (such at 17-25%) via <code class="docutils literal notranslate"><span class="pre">trnSkims/build_tmphwynet_TPS_AM.s</span></code>.</p>
+<p>Current DWELL times by transit mode number and <code class="docutils literal notranslate"><span class="pre">OWNER</span></code>:</p>
+<p><a class="reference external" href="http://intranet2.sfcta.org/Modeling/TransitAssignmentAndSkims">Intranet Source</a></p>
+<a class="reference internal image-reference" href="_images/dwell.png"><img alt="_images/dwell.png" src="_images/dwell.png" style="width: 150px;" /></a>
+</div>
+</div>
+</div>
+<div class="section" id="walk-models">
+<h2>Walk Models<a class="headerlink" href="#walk-models" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="bike-models">
+<h2>Bike Models<a class="headerlink" href="#bike-models" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="model_inputs.html" class="btn btn-neutral float-right" title="Model Inputs" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="activity_demand_models.html" class="btn btn-neutral float-left" title="Activity Demand Models" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2020, contributing authors.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
