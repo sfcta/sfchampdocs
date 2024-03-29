@@ -1,0 +1,6 @@
+Coefficient,Truck/Commercial,IXXI
+areaPricing,:math:`\begin{cases} 0 & \text{area pricing is not present} \\ 1 & \text{area pricing is present} \end{cases}`,:math:`\begin{cases} 0 & \text{area pricing is not present} \\ 1 & \text{area pricing is present} \end{cases}`
+VOT,30,15
+:math:`\beta_{ivtt}`,-0.088,-0.088
+avgEntries,2,1
+operatingCost,12,12

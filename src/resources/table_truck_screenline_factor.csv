@@ -1,0 +1,7 @@
+Screenline,Direction,EA,AM,MD,PM,EV
+Bay Bridge,Inbound,1.0,0.0,0.0,0.0,1.0
+Bay Bridge,Outbound,1.0,0.0,1.0,0.0,1.0
+Golden Gate Bridge,Inbound,1.0,1.0,1.0,1.0,1.0
+Golden Gate Bridge,Outbound,1.0,1.0,1.0,1.0,1.0
+San Mateo County Line,Inbound,1.0,1.0,1.0,1.0,1.0
+San Mateo County Line,Outbound,1.0,1.0,1.0,1.0,1.0

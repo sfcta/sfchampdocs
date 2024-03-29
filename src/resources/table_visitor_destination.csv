@@ -1,0 +1,32 @@
+Attraction,Zone,:math:`\beta_{attraction}`
+Fishermans Wharf,851,-0.6528
+Union Sq,753,-0.7389
+Chinatown,782,-0.9856
+Golden Gate Bridge,890,-0.943
+Pier 39,855,-1.3557
+Golden Gate Park,586,-1.4935
+North Beach,373,-1.2894
+Alcatraz,855,-1.9819
+Union St.,360,-1.4615
+Embarcadero,808,-1.4385
+Mission,204,-2.1125
+Haight,237,-2.3994
+Yerba Buena,745,-2.7174
+SFMOMA,743,-2.5524
+Japantown,706,-2.5546
+Presidio,963,-2.1917
+Castro,201,-2.7639
+Bay Cruise,808,-2.3014
+Chestnut,815,-2.6403
+Cliffhouse,688,-2.5632
+SOMA,595,-2.0141
+Exploratorium,840,-3.2169
+DeYoung,586,-3.4857
+Academy of Sciences,586,-3.5374
+Legion of Honor,737,-3.385
+Cable Car a,847,-1.0498
+Cable Car b,751,-1.0498
+Highway 1 a,922,-2.5562
+Highway 1 b,400,-2.5562
+Live Theater,647,-2.7328
+MCLogsum,,-0.0402

@@ -6,7 +6,7 @@ Activity Demand Models
 DaySim Activity-Based Demand Model
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-SF-CHAMP 6.0 uses the `DaySim demand model <https://github.com/RSGInc/DaySim/wiki>`_. DaySim is an open-source travel demand microsimulation package that is used by several regional planning organizations in their travel demand models. DaySim consists of a series of discrete choice models that represents different components of travel decision-making. Each model is estimated and calibrated with observed travel survey data.
+SF-CHAMP 6.0 uses the `DaySim demand model <https://github.com/RSGInc/DaySim/wiki>`_. DaySim is an open-source travel demand microsimulation package that is used by several regional planning organizations in their travel demand models. DaySim consists of a series of discrete choice models that represent different components of travel decision-making. Each model is estimated and calibrated with observed travel survey data.
 This is an abridged list of DaySim submodels and some of the primary factors that influence choice-making in each model, roughly presented in order:
 
 *	**Work location model.** Major sensitivities include: full or part-time status, distance, income, sex, and quantity of jobs by industry sector
@@ -21,133 +21,212 @@ This is an abridged list of DaySim submodels and some of the primary factors tha
 *	**Trip mode model.** Major sensitivities include: tour mode, activity purpose, travel time, transit fares, tolls, parking cost, auto ownership, household size, household composition (children in household), land use density, intersection density, age, income
 *	**Trip time model.** Major sensitivities include: student status, age, minutes available in schedule, remaining stops to make, activity purpose
 
-
-*	**Work location model**. Major sensitivities include: full or part-time status, distance, income, sex, and quantity of jobs by industry sector
-*	**School location model**. Major sensitivities include: student age, distance, and school enrollment in base year by school level
-*	**Auto ownership**. Major sensitivities include: number of drivers in household, numbers of household members of various status (child, student, worker, retired, etc.), household income, commute/school logsum benefit of car ownership (how much would car ownership improve work commute or school accessibility), distance to transit stops, parking prices near home, amount of food, retail, service, and medical employment near home
-*	**Person day pattern**. Major sensitivities include: worker/student status, income, auto ownership, sex, age, activity purpose, land use attributes, family composition (e.g. has children in household)
-*	**Tour destination models** (work, other, subtour). Major sensitivities include: full-time worker status, part-time worker status, student status, employment density, is/is not usual workplace, distance, activity purpose, day pattern, home/non-home based, income, auto availability, other land use attributes
-*	**Tour mode models (work, school, work-based, escort, other home based)**. Major sensitivities include: travel time, transit fares, tolls, parking cost, income, age, sex, auto ownership, household size, children in household, origin and destination land use attributes, stops in tour pattern by activity purpose
-*	**Tour time models (work, school, other work-based)**. Major sensitivities include: tour mode, activity purpose, day pattern (other tours in day, tour order, etc.), worker and student status, income
-*	**Intermediate stop generation model**. Major sensitivities include: tour purpose, number of tours in day pattern, time of day, duration of tour time window, sex, age, household type, tour mode, worker status, children in household status, position of stop within tour
-*	**Intermediate stop location model**. Major sensitivities include: stop activity purpose, travel time available, distance, income, tour purpose, tour mode, land use attributes (employment density, etc.)
-*	**Trip mode model**. Major sensitivities include: tour mode, activity purpose, travel time, transit fares, tolls, parking cost, auto ownership, household size, household composition (children in household), land use density, intersection density, age, income
-*	**Trip time model**. Major sensitivities include: student status, age, minutes available in schedule, remaining stops to make, activity purpose
-
 See Daysim's `Standard Technical Documentation <https://github.com/RSGInc/DaySim/wiki/docs/DaySim%20Standard%20Technical%20Documentation.docx>`_ for model system workflow, component documentation, and more. 
 
 Distributed Values of Time
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-The Phase 2 models were enhanced to include value of time distributions, rather than using fixed average values of time for each income class. In a mode choice model, value-of-time is not an explicit model coefficient, but implied from the ratio of the time coefficient and the cost coefficient. Therefore, there are three possible ways to incorporate a distributed value of time in a mode choice model—using a distributed time coefficient, using a distributed cost coefficient, or using distributed values of both.  
+The utility of money should vary with income, as well as with personal circumstances. It makes sense that a single person earning $100,000 per year would have a different utility for money than someone trying to raise a family of four on the same income. It also makes sense for those two individuals to have very different utilities of time, where one traveler may need to make it to his child’s soccer game, and another may have no specific time restrictions.
 
-The utility of money should vary with income, as well as with personal circumstances. It makes sense that a single person earning $60,000 per year would have a different utility for money than someone trying to raise a family of four on the same income. It also makes sense for those two individuals to have very different utilities of time, where one traveler may need to make it to his child’s soccer game, and another may have no specific time restrictions. From a practical standpoint, however, it is not clear what greater effects varying the time coefficient might have, particularly on the user benefit calculations required for New Starts analysis. Since it is safer to vary only the cost coefficient, that approach is taken for RPM-9.  
+In a mode choice model, value-of-time is not an explicit model coefficient, but implied from the ratio of the time coefficient and the cost coefficient. Therefore, there are three possible ways to incorporate a distributed value of time in a mode choice model—using a distributed time coefficient, using a distributed cost coefficient, or using distributed values of both.
 
-Structurally, a work value of time and a non-work value of time are selected for each individual when the work location choice model is run. These values of time are written with the person record in the output file. All remaining models read these values of time and use them in combination with the in-vehicle time coefficient, to calculate the cost coefficient for the model being run. In this way, each individual has a single value of time for work and a single value of time for non-work that are consistent across all models.  
+Daysim accounts for this in two ways: by varying the cost coefficient according to income, and by varying the time coefficient randomly. Daysim calculates the cost coefficient for each tour (in the PathTypeModel step), using a base cost coefficient and adjusting according to the household income and purpose associated with the tour: 
 
-The method for determining value of time (in 1989 dollars) for each person is:  
+.. math::
+	\begin{equation}
+		CostCoefficient = \frac{BaseCostPerDollar}{(HH\_income/BaseCostIncomeLevel)^{CostIncomePower}}
+	\end{equation}
+	
+The parameters for the cost coefficient calculation are defined below:
 
-(1) Divide the household income by the number of full-time household workers plus ½ the number of part-time household workers. If there is less than one worker in the household, do not divide. The result is the household income per worker.  
-  
-(2) Divide the household income per worker by 2,080 hours to get the average wage rate per worker for that household.  
-  
-(3) Construct a log-normal value of time distribution where the mean is ½ the wage rate for that household, and the sigma is 0.25. Draw from this distribution to obtain the work value of time.  
-  
-(4) Calculate the non-work value of time as 2/3 the work value of time.  
-  
-(5) Impose a minimum of $1/hour and a maximum of $50/hour.  
-  
-(6) For persons less than 18 years old, impose a maximum of $5/hour.   
-   
-An option is provided in RPM-9 to use the standard, average values of time for each income group. *Table 1* shows a comparison of these averages, and the average of the distributed values. The model was calibrated using the distributed values of time, so it is not clear what effect the standard values would have on the calibration results.  
-  
+.. csv-table:: 
+   :header: "Parameter", "Value"
+	
+	"BaseCostPerDollar",    -0.15
+	"BaseCostIncomeLevel",   30000
+	"CostIncomePower_Work",  0.6
+	"CostIncomePower_Other", 0.5
 
-*Table 1: Comparison of Average Distributed Values of Time with Non-Distributed Values*  
-  
-`Intranet Source <http://intranet2.sfcta.org/Modeling/CHAMPFURY#Distributed_Values_of_Time>`_  
-  
-+------------+---------------+---------------------------------+------------------------------+
-| Purpose    | Income Range  | Non-Distributed VOT (1989 $/hr) | Distributed VOT (1989 $/hr)  |
-+============+===============+=================================+==============================+
-|            |  $0-30k       | $3.61                           | $3.66                        |
-+ Work       +---------------+---------------------------------+------------------------------+
-|            |  $30-60k      | $10.82                          | $8.19                        |
-|            +---------------+---------------------------------+------------------------------+
-|            |  $60k+        | $18.03                          | $16.53                       |
-+------------+---------------+---------------------------------+------------------------------+
-|            |  $0-30k       | $2.40                           | $2.49                        |
-+ Non-Work   +---------------+---------------------------------+------------------------------+
-|            |  $30-60k      | $7.21                           | $5.46                        |
-|            +---------------+---------------------------------+------------------------------+
-|            |  $60k+        | $12.02                          | $11.45                       |
-+------------+---------------+---------------------------------+------------------------------+
+The cost coefficient is further adjusted with the following divisors for HOV2/HOV3+ modes:
 
+.. csv-table:: 
+   :header: "Trip Purpose", "HOV2", "HOV3+"
+		
+	"Work", 1.741, 2.408
+	"Other", 1.625, 2.158
 
-No changes were made to the handling of distributed values of time in CHAMP 4.3 Fury. See `Distributed Values Of Time <http://intranet2.sfcta.org/Modeling/DistributedValuesOfTime>`_ for more or to edit.
-  
+Then, a time coefficient is randomly drawn from a lognormal distribution with the following parameters:
+
+.. csv-table:: 
+   :header: "Trip Purpose", "HOV2", "HOV3+"
+		
+	"Work", -0.03, 0.24
+	"Other", -0.015, 0.15
 
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Auxiliary Demand Models
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-In addition to the personal household travel predicted by the core models, a few additional markets contribute significantly to the total travel in the region. These markets include visitors, internal-external and external-external trips, and commercial vehicles, and all are modeled using existing methods. 
+In addition to the personal household travel predicted by the core models, SF-CHAMP represents the following non-residential travel market segments:
 
-Airports
+* Visitors: Represents trips made by people who live outside of the model region, but are lodging within it.
+* Trucks: Represents freight truck travel for heavy-, medium-, and light-duty trucks
+* Commercial vehicles: Represents travel for commercial purposes done in very-light-duty trucks, passenger vehicles, and vans.
+* Externals: Represents trips with one or both trip ends outside of the model region
+
+Airport traffic to and from San Francisco, San Jose and Oakland airports is not currently modeled in SF-CHAMP.
+
+  
+Visitor Model
+~~~~~~~~~~~~~
+The visitor model represents travel made by tourists and visitors within the model region, but who live outside it.  The visitor model generates trips between hotel rooms and common tourist destinations and assigns mode using a simplified mode choice model with drive (toll), drive (no toll), transit, and walk modes.
+
+For each hotel room-attraction zone pair, the number of trips is calculated using this equation.
+
+.. math::
+	\begin{equation}
+		hotelBasedTrips = hotelRooms \times \frac{e^{\beta_{MCLogsum} + \beta_{attraction}}}{1+e^{\beta_{MCLogsum}+\beta_{attraction}}}
+	\end{equation}
+
+The destination choice coefficients are:
+
+.. csv-table::
+	:file: resources/table_visitor_destination.csv
+	:header-rows: 1
+
+Mode Choice logsums are calculated by this equation.
+
+.. math::
+	\begin{equation}
+		MCLogsum = log(e^{U_{driveNoToll}}+e^{U_{driveToll}}+e^{U_{transit}}+e^{U_{walk}})
+	\end{equation}
+	
+The mode-specific utilities for each zone pair are calculated with the following equations, where the impedance values are midday zone-to-zone values.
+	
+.. math::
+	\begin{align}
+		U_{driveNoToll} = &\beta_{ivtt} \times noTollDriveTime + \beta_{ovt} \times terminalTime + \beta_{cost} \times noTollBridgeToll + \\
+			&\beta_{costCents} \times noTollDistance \times \frac{centsPerMile}{partysize} + \beta_{hotel} \times \frac{parkCost}{partysize}\\
+		U_{driveToll} = &\beta_{ivtt} \times tollDriveTime + \beta_{ovt} \times terminalTime + \beta_{cost} \times (tollBridgeToll+tollValueToll) + \\
+			&\beta_{costCents} \times tollDistance \times \frac{centsPerMile}{partysize} + \beta_{hotel} \times \frac{parkCost}{partysize}\\
+		U_{transit} = &\beta_{transit} + \beta_{ivtt} \times (W_{transitIVTT} \times transitIVTT + busPenalty) + \beta_{ovt} \times OVT + \\
+			&\beta_{cost} \times fare\\
+		U_{walk} = &\beta_{walk} + \beta_{ovt} \times shortWalkTime + \beta_{longWalkTime} \times longWalkTime\\
+	\end{align}
+			
+
+Utilities for each mode are used in mode choice models and aggregated into logsums.  The mode parameter values are:
+
+.. csv-table::
+	:file: resources/table_visitor_modechoice.csv
+	:header-rows: 1
+	
+These total daily trips are assigned a mode (using skims by mode and the cost parameters listed above), and then split by time period according to the following time of day factors:
+
+.. csv-table::
+	:file: resources/table_visitor_tod.csv
+	:header-rows: 1
+	
+Truck Model
 ~~~~~~~~~~~
-The project team considered the significance of San Francisco, San Jose and Oakland airports as unique trip attractors in the Bay Area. Ultimately, the team decided not to treat airports in any special way at this time.
+The SF-CHAMP truck model uses truck demand tables provided by MTC.  The MTC truck demand (truktd.h5) contains OD matrices for small, medium, and combo (heavy) trucks. MTC also provides very-small truck data, but SF-CHAMP does not use this data, and instead implements a separate commercial vehicle model.  The MTC truck demand is reformatted, scaled, and run through a toll choice model.
 
-Non-Resident Travel
-~~~~~~~~~~~~~~~~~~~~
+The truck model reads the small, medium, and combo truck tables and sums them to a daily total truck matrix.  The matrix is in MTC's zone 1454 TAZ system, which is then padded with externals to 1475x1475, and then converted to the SF-CHAMP 2454 TAZ system.  With externals, the converted matrix is 2475x2475.  
 
-See `Non Resident Travel <http://intranet2.sfcta.org/Modeling/NonResidentTravel>`_ for more or to edit.  
+Daily total truck trips are allocated to time periods using these factors:  
+
+.. csv-table::
+	:file: resources/table_truck_tod.csv
+	:header-rows: 1
+	
+Truck demand is then scaled at the county-to-county level calibrated to San Francisco screenline volumes on the Bay Bridge, Golden Gate Bridge, and San Mateo County line by direction and time period.  The counties associated with the inbound end and outbound end of each screenline are:
+
+.. csv-table::
+	:file: resources/table_truck_screenline_def.csv
+	:header-rows: 1
+	
+The scaling scaling factors for each screenline, direction, and time period are:
+
+.. csv-table::
+	:file: resources/table_truck_screenline_factor.csv
+	:header-rows: 1
+	
+Commercial Vehicle Model
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+The commercial vehicle model generates trip productions and attractions at a TAZ-level using trip rates below.  In this model the zone-wise productions and attractions are equal.
+
+.. csv-table:: 
+   :file: resources/table_com_trip_rates.csv
+   :header-rows: 1
+   
+Those daily commercial vehicle trips are distributed using a simple gravity model.  A seed matrix is computed from a set of  friction factors (from FF_COMVEH.TXT) and skimmed midday drive alone times for impedance.  Figure X shows the friction factors by midday drive times.  
+
+.. image:: resources/commercial_model_friction_factors.png
+
+The trip table is then run through iterative proportional fitting (IPF) which adjusts the seed matrix cell values, initially populated with friction factors, to match the row (production) and column (attraction) sums.  Then zone-to-zone demand is scaled using county-to-county pairings, calibrated to screenline counts for the Bay Bridge, Golden Gate Bridge, and San Mateo County Line.
+
+.. csv-table::
+	:file: resources/table_com_screenline_def.csv
+	:header-rows: 1
+	
+The scaling scaling factors for each screenline, direction, and time period are:
+
+.. csv-table::
+	:file: resources/table_com_screenline_factor.csv
+	:header-rows: 1
+	
+Externals (IXXI)
+~~~~~~~~~~~~~~~~
+
+Externals, also referred to as IXXI,  are trips with one or both trip ends outside of the model region.  These trips are segmented into internal-to-external (IX), external-to-internal (XI), and external-to-external (XX).  XX trips are also called passthrough trips.  
+Daily external trip tables are provided by MTC for DA, SR2, and SR3. The IXXI model reads the MTC external trip tables and converts them from the MTC to the SF-CHAMP TAZ system.  Then the daily trip tables are allocated to time periods using the time of day factors below.
+
+.. csv-table::
+	:file: resources/table_ixxi_tod.csv
+	:header-rows:1
+
+Auxiliary Demand Toll Choice Model
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+If there are value tolls (for express lanes, area pricing, or congestion pricing), then a mode choice model is applied to classify truck demand into "toll" and "no toll" modes.  The toll model assumes that all value tolls within a scenario are either area pricing or express lanes.  If area pricing is activated, then the model assumes that a toll is paid only once per day, and after the toll is paid subsequent trips may use the toll path for free.  Therefore the truck toll model generates 3 modes: no toll (TRK), toll (TRK_TOLL), and toll paid (TOLL_PAID).  
+
+The probability of choosing the toll mode is
+
+.. math::
+	\begin{equation}
+		P(toll) = \frac{U_{toll}}{U_{toll}+U_{noToll}}
+	\end{equation}
+	
+Where the utilities for the toll and no toll modes are
+
+.. math::
+	\begin{align}
+		U_{toll}& = 
+		\begin{cases}
+		e^{\beta_{ivtt} \times tollTime + \frac{0.6 \times \beta_{ivtt}}{VOT} \times tollCost} & areaPricing=0\\
+		e^{\beta_{ivtt} \times tollTime + \frac{0.6 \times \beta_{ivtt}}{VOT \times avgEntries} \times tollCost} & areaPricing=1
+		\end{cases}\\
+		U_{noToll}& = 
+		\begin{cases}
+		e^{\beta_{ivtt} \times noTollTime + \frac{0.6 \times \beta_{ivtt}}{VOT} \times noTollCost} & areaPricing=0\\
+		e^{\beta_{ivtt} \times noTollTime + \frac{0.6 \times \beta_{ivtt}}{VOT \times avgEntries} \times noTollCost} & areaPricing=1
+		\end{cases}
+	\end{align}
+	
+Where the toll and no toll costs are defined as
+
+.. math::
+	\begin{align}
+		noTollCost& = noTollDistance \times operatingCost + noTollBridgeToll\\
+		tollCost& = tollDistance \times operatingCost + tollBridgeToll + tollValueToll
+	\end{align}
+
+The coefficients for these equations are:
+
+.. csv-table::
+	:file: resources/table_aux_toll_choice_coeffs.csv
+	:header-rows: 1
+	
+	
   
-The CHAMP 3 visitor model was carried over to RPM-9. The model uses the MTC external trip table, and the MTC light, medium, and heavy truck trip tables. Initially, the model also used the MTC very light truck trip table, but that was later replaced with a simple commercial vehicle model, as described below.  
-
-MTC provides commercial trip tables for four classes of vehicles: heavy, medium, light and very light. The heavy, medium and light vehicles are the trucks typically associated with freight movements. For the year 2000, these classes account for about 275,000 trips in the 9-county area. In its most recent round of model calibration, MTC also introduced a very small truck trip table containing about 3.1 million trips. These very small trucks are any four tire vehicles associated with a commercial movement. In part, they include travel associated with: parcel deliveries, mail routes, service calls, attendance at meetings, traveling salesmen, pizza deliveries, taxi cabs, and any other travel beyond a commute associated with commercial activity. MTC borrowed their very small commercial vehicle trip rates from the Maricopa Association of Governments (MAG), and they are consistent with the Quick Response Freight Manual (QRFM) rates. MTC distributed the trips using their non-home based trip distribution models. Knowing that the traffic associated with these trips is significant, but lacking any local observed data quantifying the commercial travel, this approach seems reasonable.  
-
-During the CHAMP 3 calibration, the MTC very light truck trip tables were factored up by 40% such that the modeled highway volumes would better match traffic counts. This scaling was only done after the amount of personal travel had been increased to the maximum amount deemed reasonable, and all other options had been exhausted. It was known that the amount of travel found in the BATS 2000 added up to significantly less than the amount of travel implied by the traffic counts, and commercial traffic was one important difference between the two. In subsequent applications of CHAMP 3, however, planners observed what they judged to be an excessive amount of very short commercial vehicle trips in downtown San Francisco. Therefore, RPM-9 sought to mitigate this issue to the extent possible, while still generating enough vehicles on the highway networks.  
-
-After considering several alternatives, the ultimate decision was to continue using the MTC heavy, medium and light truck trip tables, but develop a simple commercial vehicle model to replace the MTC very light truck trip table. The commercial vehicle model is an aggregate model, starting from the QRFM trip rates, shown in Table 6. These rates result in the same number of trips as are found in the MTC trip tables, and 40% fewer than in CHAMP 3.
-  
-
-*Table 2: Very Light Commercial Vehicle Trip Rates*   
-
-`Intranet Source <http://intranet2.sfcta.org/Modeling/NonResidentTravel>`_  
-
-.. csv-table:: Table 2:
-   :header: "Socio-Economic Category", "Trip Rate"
-
-   "CIE Employment", 0.437
-   "Households", 0.251
-   "MED Employment", 0.437
-   "MIPS Employment", 0.437
-   "PDR Employment", 0.938
-   "RETAIL Employment", 0.888
-   "VISITOR Employment", 0.4
-  
-The trips are then distributed using a gravity model and the friction factors shown in Figure 5. The friction factors were calibrated to produce what the analysts thought was a reasonable trip length distribution for commercial vehicle trips.
-Table 2 shows this trip length distribution, which are significantly longer than the MTC trip lengths, producing more vehicle miles traveled with fewer trips.  
-
-To understand the effect of these changes, the share of commercial and other trips and vehicle miles traveled are presented in Table 7. The values and comparisons to traffic counts are approximate, because they are from an intermediate calibration run prior to the final calibration.  
-  
-*Table 3: Comparison of Very Light Commercial Vehicle Trips in CHAMP 3 and RMP-9*  
-  
-`Intranet Source <http://intranet2.sfcta.org/Modeling/NonResidentTravel>`_  
-
-.. image:: resources/table_3.png
-
-
-Area Pricing Logic
-~~~~~~~~~~~~~~~~~~~
-
-The non-resident trip tables are split into toll, non-toll, and already paid, just like the residents. The toll/no-toll choice uses simple logit models, where the value of time is $15/hour for external and visitor trips, and $30/hour for commercial trips.  
-
-In these aggregate models, it is not possible to explicitly track which trips have paid and have not. Instead, the cost coefficients are divided by the average number of times that the same traveler is expected to enter the pricing area in a day. Lacking any observed data, the model uses the following assumptions:  
-
-*	External travelers enter once per day,  
-  
-*	Visitors enter twice per day, and  
-
-*	Commercial vehicles enter twice per day.  
-  
-Note that these entries are only the number of inbound trips, assuming that exiting the pricing area is free. Following the choice of the toll or no-toll alternative, the toll trips are split into two trip tables for those who have to pay the toll in assignment, and those who have already paid it. This split is done by dividing by the number of entries per day.

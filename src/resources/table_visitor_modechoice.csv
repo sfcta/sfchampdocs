@@ -1,0 +1,19 @@
+Parameter,Value
+areaPricing,:math:`\begin{cases} 0 & \text{area pricing is not present} \\ 1 & \text{area pricing is present} \end{cases}`
+:math:`\beta_{ivtt}`,-0.02712
+:math:`\beta_{ovt}`,-0.05424
+:math:`\beta_{costCents}`,-0.0003816
+:math:`\beta_{hotel}`,-1.5552
+:math:`\beta_{transit}`,-4.23
+:math:`\beta_{walk}`,-4.36
+:math:`\beta_{longWalkTime}`,-0.1322
+:math:`\beta_{cost}`,:math:`\begin{cases} -0.00108 & areaPricing=0 \\ -0.00054 & areaPricing=1 \end{cases}`
+visitorVOT,15
+visitorAvgEntries,2
+centsPerMile,38.2
+:math:`W_{transitIVTT}`,2
+partysize,1.69
+walkSpeedMPH,3
+shortWalkTime,20
+busPenalty,10
+maxWalkTime,59.999
