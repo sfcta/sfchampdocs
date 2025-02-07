@@ -1,0 +1,22 @@
+Name,Description
+"BUSVOL_{AM,MD,PM,EV,EA}",Bus volumes on the link over the time period
+V_1,"Total assigned volume on the link, in Passenger Car Equivalents. In other words, (V1_1 + … + V9_1) + TruckPCE*(V10_1 + V11_1 + V12_1) + BusPCE*!BusVol"
+TIME_1,"Final congested travel time on the link, in minutes"
+VC_1,"V_1 / capacity, but it is incorrect for us because capacity is hourly so V_1 needs to be multiplied by the peaking factor"
+CSPD_1,Congested speed (mph)
+VDT_1,Vehicle Distance Traveled
+VHT_1,Vehicle Hours Traveled
+V1_1,# of Drive Alone vehicles on the link
+V2_1,# of SR2 vehicles on the link
+V3_1,# of SR3+ vehicles on the link
+V4_1,# of Drive Alone vehicles with value toll
+V5_1,# of SR2 vehicles on the link with value toll
+V6_1,# of SR3+ vehicles on the link with value toll
+V7_1,# of Drive Alone vehicles with value toll already paid
+V8_1,# of SR2 vehicles on the link with value toll already paid
+V9_1,# of SR3+ vehicles on the link with value toll already paid
+V10_1,# of trucks on the link
+V11_1,# of trucks with value toll
+V12_1,# of trucks with value toll already paid
+VT_1,Total assigned volume (# of vehicles) on the link for two directions
+VnT_1,Same as Vn_1 but for two directions

@@ -1,0 +1,24 @@
+Name,Required,Description
+USE,Required,"2: HOV2+ peak period, 3: HOV3+ peak period, 4: no trucks, 5: HOV2+ all day, 6: HOV3+ all day, 8: comm/truck only, 9: transit only"
+FT,Required,Facility Type Helps (along with AT) to define speed and capacity of link.
+AT,Required,AreaType The Area type of the facility. Helps (along with FT) to define speed and capacity of link.
+MTYPE,Required,"SF for within SF, MTC without"
+SPEED,Optional,"Freeflow speed on the link, in mph. Set by update_attributes.s based on FT and AT"
+DISTANCE,Required,"Length of link, in miles"
+TIME,Optional,"The initial time on the link, in minutes. The more accurate this is, the more accurate the initial assignment/skims are. Set by update_attributes.s based on the DISTANCE/SPEED"
+CAP,Optional,"The capacity of the link, in vehicles/hour per lane. Set by update_attributes.s based on FT and AT, see ModelFacilityTypes for translation table."
+"LANE_{AM,PM,OP}",Required,Number of general purpose lanes in the given time period (does not include bus lanes)
+"TOLL{AM,MD,PM,EV,EA}_{DA,SR2,SR3}",Required,Toll in 1989 cents for the link in given time period for the given group. Introduced in CHAMP4
+VALUETOLL_FLAG,Required,0=no value toll 1=toll on this link is a value toll. Introduced in CHAMP4.
+PASSTHRU,Required,"0 if the value toll doesn't get a 'pass, 1 if it does. Introduced in CHAMP4."
+"BUSTPS_{AM,PM,OP}",Required,"Type of bus travel time savings from transit signal priority for the given time period. 0 = no bus TPS, 1 = 3 seconds savings, 2 = 6 seconds savings. Introduced in CHAMP4"
+"BUSLANE_{AM,PM,OP}",Required,"type of bus lane {0: none, 1: diamond, 2: side BRT, 3: center BRT} on link for time period. Introduced in CHAMP4"
+"{AM,PM,OP}BUSSAVE",Required,attribute to add any more savings (in seconds) due to transit for the given time period
+TOLLTIME,Required,time it takes to pay a toll on the link. Introduced in CHAMP 4.3 Fury
+BIKE_CLASS,Required,"Type of bicycle facility on route. Introduced in CHAMP 4.3 Fury.
+0=None
+1=Class 1 facility (off-street bike path or cycletrack) or Class 4 facility (protected bike lane or bike lane physically buffered by soft-hit, parking, curb, raised)
+2=Class 2 facility (conventional bike lane or paint-buffered lane with no physical protection)
+3=Class 3 facility (sharrow, signed bike route, or bicycle boulevard)"
+PER_RISE,Required,percent rise on the link (for bike routing). Can be negative. Introduced in CHAMP 4.3 Fury.
+ONEWAY,Required,boolean to determine if link is one-way. Introduced in CHAMP 4.3 Fury for the bike model)
